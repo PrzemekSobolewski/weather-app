@@ -2,33 +2,40 @@ import React from 'react';
 import './styles/App.css';
 import Weather from './components/Weather'
 import Region from './components/Region'
+import {connect} from 'react-redux'
 
-const API_key = 'de238dfc0038a5d9b5162325e52dbdaf';
-class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            city:undefined,
-            country: undefined
-        };
-        this.getWeather()
+
+const App = (props) => {
+    return (
+        <div className="App">
+            <Region/>
+            <Weather
+                city={props.city}
+                feels_temp={props.feels_temp}
+                temp={props.temp}
+                temp_min={props.temp_min}
+                temp_max={props.temp_max}
+                pressure={props.pressure}
+                clouds={props.clouds}
+                wind={props.wind}
+                desc={props.desc}
+            />
+        </div>
+    );
+};
+
+const mapStoreToProps = (store) => {
+    return {
+        city: store.city,
+        feels_temp: store.feels_temp,
+        temp: store.temp,
+        temp_min: store.temp_min,
+        temp_max: store.temp_max,
+        pressure: store.pressure,
+        clouds: store.clouds,
+        wind: store.wind,
+        desc: store.desc
     }
+};
 
-    getWeather = async() => {
-        const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=Warszawa,Polska&appid=${API_key}`);
-
-        const response = await api_call.json();
-
-        console.log(response)
-    };
-    render() {
-        return (
-            <div className="App">
-                <Region/>
-                <Weather/>
-            </div>
-        );
-    };
-}
-
-export default App;
+export default connect(mapStoreToProps)(App);
