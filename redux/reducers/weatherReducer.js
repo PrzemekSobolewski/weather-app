@@ -2,14 +2,15 @@ import {UPDATE_CITY} from "../actions/weatherAction";
 
 const initialState = {
     city: 'Warsaw',
-    feels_temp: '0',
-    temp: '20',
-    temp_min: '0',
-    temp_max: '0',
-    pressure: '0',
-    clouds: 'idk',
-    wind: '0',
-    desc: 'none'
+    feels_temp: 0,
+    temp: 0,
+    temp_min: [0, 0, 0, 0, 0],
+    temp_max: [0, 0, 0, 0, 0],
+    pressure: 0,
+    clouds: 0,
+    wind: 0,
+    desc: [0, 0, 0, 0, 0],
+    icons: [0, 0, 0, 0, 0]
 };
 
 export default (state = initialState, action) => {
@@ -24,8 +25,8 @@ export default (state = initialState, action) => {
             pressure: action.pressure,
             clouds: action.clouds,
             wind: action.wind,
-            desc: action.desc
-
+            desc: action.desc,
+            icons: action.icon
         }
     }
     return state;
