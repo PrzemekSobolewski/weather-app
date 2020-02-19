@@ -37,16 +37,20 @@ export const updateWeatherInfo = (response)=> {
 const calcCelsius = (temp) => Math.floor(temp - 273.15);
 
 export const fetchWeatherFromCity = (city) => async dispatch => {
-    const apicall = await fetch(PART_OF_URL + `q=${city}&cnt=${5}&appid=${API_key}`);
-    const response = await apicall.json();
-    dispatch(updateWeatherInfo(response));
+    await fetch(PART_OF_URL + `q=${city}&cnt=${5}&appid=${API_key}`)
+        .then(response => response.json())
+        .then(json => dispatch(updateWeatherInfo(json)))
+        .catch(err => console.log(err));
 };
 
 export const fetchWeatherFromLocation = (latitude, longitude) => async dispatch => {
-    const apicall = await fetch(PART_OF_URL + `lat=${latitude}&lon=${longitude}&cnt=${5}&appid=${API_key}`);
-    const response = await apicall.json();
-    console.log(response);
-    dispatch(updateWeatherInfo(response));
+    await fetch(PART_OF_URL + `lat=${latitude}&lon=${longitude}&cnt=${5}&appid=${API_key}`)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            dispatch(updateWeatherInfo(json))
+        })
+        .catch(err => console.log(err));
 
 };
 

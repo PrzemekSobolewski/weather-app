@@ -4,11 +4,15 @@ import './styles/index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import weatherReducer from './redux/reducers/weatherReducer';
-import {createStore, applyMiddleware, compose} from 'redux';
+import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
-const store = createStore(weatherReducer, compose(applyMiddleware(thunk)));
+const reducers = combineReducers({
+    myWeather: weatherReducer
+});
+
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
 ReactDOM.render(
     <Provider store={store}>
         <App />

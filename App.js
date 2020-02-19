@@ -2,10 +2,8 @@ import React from 'react';
 import './styles/App.css';
 import Weather from './components/Weather';
 import Region from './components/Region';
-import {connect} from 'react-redux';
 import {css} from 'emotion';
 import FutureWeather from './components/FutureWeather';
-
 const FullContent = css({
     display: "flex",
     height: "100%"
@@ -21,50 +19,16 @@ const MainContent = css({
     alignItems: "center"
 });
 
-const App = (props) => {
+const App = () => {
     return (
         <div className={FullContent}>
             <div className={MainContent}>
                 <Region/>
-                <Weather
-                    city={props.city}
-                    feels_temp={props.feels_temp}
-                    temp={props.temp}
-                    temp_min={props.temp_min}
-                    temp_max={props.temp_max}
-                    pressure={props.pressure}
-                    clouds={props.clouds}
-                    wind={props.wind}
-                    desc={props.desc}
-                    icons={props.icons}
-                />
+                <Weather/>
             </div>
-
-            <FutureWeather
-                temp={props.temp}
-                temp_min={props.temp_min}
-                temp_max={props.temp_max}
-                desc={props.desc}
-                icons={props.icons}
-            />
-
+            <FutureWeather/>
         </div>
     );
 };
 
-const mapStoreToProps = (store) => {
-    return {
-        city: store.city,
-        feels_temp: store.feels_temp,
-        temp: store.temp,
-        temp_min: store.temp_min,
-        temp_max: store.temp_max,
-        pressure: store.pressure,
-        clouds: store.clouds,
-        wind: store.wind,
-        desc: store.desc,
-        icons: store.icons
-    }
-};
-
-export default connect(mapStoreToProps)(App);
+export default App;

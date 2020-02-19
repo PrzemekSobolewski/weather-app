@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {connect, useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import * as actions from "../redux/actions/weatherAction";
 
-const Region = (props) => {
-    const [city, setCity] = useState(props.city);
+const Region = () => {
+    const weather = useSelector(state => state.myWeather);
+    const [city, setCity] = useState(weather.city);
     const dispatch = useDispatch();
 
     const getLocation = () => {
@@ -31,22 +32,14 @@ const Region = (props) => {
 
     return (
         <div>
-            <form id={'regionForm'} method='POST'
-                  onSubmit={handleSubmit}>
+            <form id={'regionForm'} onSubmit={handleSubmit}>
                 <input className={"region"} value={city} type={"text"} name={"city"} id={"city"}
                        onChange={handleChange}/>
-                <button type='submit' className='submitButton'>GET WEATHER</button>
+                <button type='submit' >GET WEATHER</button>
             </form>
         </div>
     )
 
 };
 
-const mapStoreToProps = (store) => {
-    return {
-        city: store.city,
-    }
-};
-
-
-export default connect(mapStoreToProps)(Region)
+export default Region

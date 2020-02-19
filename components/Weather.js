@@ -1,4 +1,5 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux'
 import {
     WiDayThunderstorm,
     WiShowers,
@@ -13,8 +14,10 @@ import {
     WiCloudy,
     WiDayCloudy
 } from 'weather-icons-react';
+import {MdPerson} from "react-icons/md";
 import {css} from 'emotion';
 import styled from '@emotion/styled';
+import Icon from "./Icon";
 
 const MainWeather = css({
     float: "left",
@@ -43,16 +46,27 @@ const ActualTemp = styled.div`
     margin-right: -1em;
 `;
 
-const Details = styled.div`
+const DetailsContainer = styled.div`
+    text-align: left;
     float: right;
     margin-top: 6em;
     margin-right: 10%;
-    font-size: 2em;
-    font-weight: 700;
-    display: grid;
+    font-size: 1.5em;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
 `;
 
-const Weather = (props) => {
+const DetailsIcons = css({
+    marginBottom: '-0.2em'
+});
+
+const Detail = styled.span`
+    padding-bottom: 0.2em;
+`;
+
+const Weather = () => {
+    const weather = useSelector(state => state.myWeather);
     const weekday =["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     const month = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November, December"];
@@ -64,46 +78,26 @@ const Weather = (props) => {
         + date.getFullYear().toString() + " "
         + weekday[day];
 
-    const selectIcon = (icon) => {
-        switch (icon) {
-            case (icon <= 232) :
-                return <WiDayThunderstorm size={200} color={'#000'}/>;
-            case (icon >= 300 && icon <= 321) :
-                return <WiShowers size={200} color={'#000'}/>;
-            case (icon >= 500 && icon <= 521) :
-                return <WiRain size={200} color={'#000'}/>;
-            case (icon >= 600 && icon <= 622) :
-                return <WiSnowWind size={200} color={'#000'}/>;
-            case (icon >= 700 && icon <= 781) :
-                return <WiFog size={200} color={'#000'}/>;
-            case (icon === 800) :
-                return <WiDaySunny size={200} color={'#000'}/>;
-            case (icon === 801 || icon === 802) :
-                return <WiDayCloudy size={200} color={'#000'}/>;
-            case (icon > 802) :
-                return <WiCloudy size={200} color={'#000'}/>;
-            default :
-                return <WiDaySunny size={200} color={'#000'}/>;
-        }
-    };
-
     return(
         <div className={"weather"}>
-            <City>{props.city}</City>
+            <City>{weather.city}</City>
             <CurrentDate>{getFullDate(date.getDay())}</CurrentDate>
             <div className={MainWeather}>
-                <Desc>{props.desc[0]}</Desc>
-                {selectIcon(props.icons[0])}
-                <ActualTemp><WiThermometer/>{props.temp[0]}&deg;C</ActualTemp>
+                <Desc>{weather.desc[0]}</Desc>
+                <Icon
+                    icon={weather.icons[0]}
+                    size={200}
+                    color={'#000'}/>
+                <ActualTemp><WiThermometer className={DetailsIcons}/>{weather.temp}&deg;C</ActualTemp>
             </div>
-            <Details>
-                <span className={'feelsTemp'}>{props.feels_temp}&deg;C</span>
-                <span className={"nightTemp"}><WiMoonAltWaningCrescent3/>{props.temp_min[0]}&deg;C</span>
-                <span className={"dayTemp"}><WiDaySunny/>{props.temp_max[0]}&deg;C</span>
-                <span><WiStrongWind/>{props.wind} Mph</span>
-                <span><WiBarometer/>{props.pressure} hPa</span>
-                <span>{props.clouds}%</span>
-            </Details>
+            <DetailsContainer>
+                <Detail><MdPerson style={{marginBottom: "-0.15em"}}/> Feels like: {weather.feels_temp}&deg;C</Detail>
+                <Detail><WiMoonAltWaningCrescent3 className={DetailsIcons}/> Min. temp.: {weather.temp_min[0]}&deg;C</Detail>
+                <Detail><WiDaySunny className={DetailsIcons}/> Max. temp.: {weather.temp_max[0]}&deg;C</Detail>
+                <Detail><WiStrongWind className={DetailsIcons}/> Wind speed: {weather.wind} Mph</Detail>
+                <Detail><WiBarometer className={DetailsIcons}/> Pressure: {weather.pressure} hPa</Detail>
+                <Detail><WiCloudy className={DetailsIcons}/> Cloudy: {weather.clouds}%</Detail>
+            </DetailsContainer>
         </div>
     )
 };
