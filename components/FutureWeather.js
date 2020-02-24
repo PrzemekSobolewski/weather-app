@@ -13,11 +13,8 @@ const Container = styled.div`
     border-bottom: 1px solid;
 `;
 const Temp = styled.span`
-    padding: 0em 0em 1em 1em;
-`;
-const Temperatures = styled.div`
-    font-size: 1.2em;
-    padding-top: 2em;
+    padding: 2.2em 0em 1em 1em;
+    font-size: 1.6em;
     display: grid;
     text-align: center;
     float: left;
@@ -52,7 +49,7 @@ const FutureWeather = () => {
         date.setDate((new Date().getDate() + number));
         return date.getDate().toString() + " "
             + month[(date.getMonth())] + " "
-            + date.getFullYear().toString() + " "
+            + date.getFullYear().toString() + ", "
             + weekday[day];
     }
 
@@ -68,10 +65,7 @@ const FutureWeather = () => {
                         size={100}
                         color={'#fff'}/>
                 </div>
-                <Temperatures>
-                    <Temp>{weather.temp_min[i]} &deg; C</Temp>
-                    <Temp>{weather.temp_max[i]} &deg; C</Temp>
-                </Temperatures>
+                <Temp>{weather.temp_max[i]} &deg;C</Temp>
          </Container>)
     }
 
