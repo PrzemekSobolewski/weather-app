@@ -7,28 +7,34 @@ import {IoIosSearch} from "react-icons/io"
 
 const Icon = css({
     fontSize: "2.5em",
-    marginBottom: "-0.35em",
+    float: "left",
+    marginTop: "0.1em",
     marginLeft: "-1.3em",
+    color: "white",
     ':hover':{
         cursor: "pointer",
         color: "#ff8080"
     }
 });
 const RegionSelector = css({
-    marginTop: "3em",
+    paddingTop: "3em",
     maxLength: "15"
 
 });
 
 const RegionInput = styled.input`
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    color: white;
+    float: left;
     font-size: 1.3em;
     height: 2.2em;
-    width: 20em;
+    width: 15em;
+    border-radius: 15px;
+    margin-left: 3em;
     padding-left: 0.7em;
-    border: solid 2px grey;
-    border-radius: 3em;
     &:focus {
-        border-color: #8600b3;
+        background-color: rgba(0, 0, 0, 0.5);
         outline: none;
     }    
 `;

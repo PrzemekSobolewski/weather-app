@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
             clouds: action.clouds,
             wind: action.wind,
             desc: action.desc,
-            icons: action.icon
+            icons: action.icon,
         }
     }
     return state;

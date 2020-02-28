@@ -4,24 +4,49 @@ import Weather from './components/Weather';
 import Region from './components/Region';
 import {css} from 'emotion';
 import FutureWeather from './components/FutureWeather';
+import clear_sky from './assets/wallpapers/clear_sky.jpg';
+import clouds from './assets/wallpapers/clouds2.jpg';
+import snow from './assets/wallpapers/snow.jpg';
+import rain from './assets/wallpapers/rain.jpg';
+import {useSelector} from "react-redux";
+
+
+
 const FullContent = css({
+    backgroundImage: `url(${clear_sky})`,
+    backgroundSize: "cover",
     display: "flex",
     height: "100%"
 });
 
 const MainContent = css({
-    background: "rgb(207,100,100)",
-    background: "linear-gradient(90deg, rgba(207,100,100,1) 37%, rgba(131,58,180,1) 100%, rgba(252,176,69,1) 100%);",
-    textAlign: "center",
-    bottom:"0px",
     width: "100%",
-    height: "100%",
-    alignItems: "center"
+    textAlign: "center",
+    bottom: "0px",
 });
 
 const App = () => {
+    const weather = useSelector(state => state.myWeather);
+
+    function getWallpaper() {
+        console.log(weather.icons[0]);
+        if (weather.icons[0] <= 521)
+            return rain;
+
+        if (weather.icons[0] >= 600 && weather.icons[0] <= 622)
+            return snow;
+
+        if (weather.icons[0] <= 800 && weather.icons[0] > 801)
+            return clear_sky;
+
+        if (weather.icons[0] >= 801 || (weather.icons[0] >= 700 && weather.icons[0] <= 781))
+            return clouds;
+
+        return clear_sky;
+    }
+
     return (
-        <div className={FullContent}>
+        <div className={FullContent} style={{backgroundImage: `url(${getWallpaper()})`}}>
             <div className={MainContent}>
                 <Region/>
                 <Weather/>

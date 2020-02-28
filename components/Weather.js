@@ -1,68 +1,103 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux'
 import {
     WiThermometer,
     WiBarometer,
-    WiMoonAltWaningCrescent3,
-    WiDaySunny,
     WiStrongWind,
     WiCloudy,
 } from 'weather-icons-react';
 import {MdPerson} from "react-icons/md";
-import {css} from 'emotion';
+import {css, keyframes} from 'emotion';
 import styled from '@emotion/styled';
+import {MdLocationOn} from "react-icons/md"
+
 import Icon from "./Icon";
 
+const transitionIn = keyframes`
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
+`;
+
 const MainWeather = css({
-    float: "left",
-    marginLeft: "20%",
-    fontSize: "3em",
-    fontWeight: "700"
+    width: "20em",
+    borderRadius: "10px",
+    float: "right",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    marginRight: "8em",
+
 });
 
-const City = styled.h1`
-    font-size: 5em;
-    margin: 0.5em 0 0.2em 0;
+const City = styled.h1` 
+    font-size: 2em;
+    margin: 0.5em 0em 1em 0;
 `;
 
 const CurrentDate = styled.div`
-    font-size: 2em;
+    margin: 0.5em 0em 1em 0;
+    font-size: 1.5em;
 `;
 
 const Desc = styled.div`
-    text-align: right;
-    margin: -0.2em -1.8em 0 0;
+    text-align: center;
+    font-size: 2em;
 `;
 
 const ActualTemp = styled.div`
-    margin: 0.9em 0 0 -4em;
+    padding: 1em;
 `;
 
 const DetailsContainer = styled.div`
-    text-align: left;
-    float: right;
-    margin-top: 3em;
-    margin-right: 10%;
-    font-size: 1.6em;
-    font-weight: 400;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
 `;
+const SubDetailsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    margin: 1em;
+    width: 100%;
+`;
+
 
 const DetailsIcons = css({
-    marginBottom: '-0.2em'
+    marginBottom: '-0.15em',
+    paddingRight: '0.2em',
+    textAlign: 'left'
 });
 
-const Detail = styled.span`
-    padding-bottom: 0.5em;
+const CityIcons = css({
+    margin: "0 0.2em -0.1em 0"
+});
+
+const Detail = styled.div`
+    font-size: 2em;
+    width: 50%;
 `;
 
+const CurrentWeather = css`
+    animation: ${transitionIn} 1s;
+`;
+const CurrentDay = css`
+    color: rgba(255, 255, 255, 1);
+    float: right;
+`;
+
+
 const Weather = () => {
+    const weatherRef = useRef(null);
+
     const weather = useSelector(state => state.myWeather);
 
-    const weekday =["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    const month = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November, December"];
+    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November, December"];
 
     const date = new Date();
 
@@ -71,26 +106,35 @@ const Weather = () => {
         + date.getFullYear().toString() + ", "
         + weekday[day];
 
-    return(
-        <div className={"weather"}>
-            <City>{weather.city}</City>
-            <CurrentDate>{getFullDate(date.getDay())}</CurrentDate>
+    useEffect(() => {
+        weatherRef.current.classList.add(CurrentWeather);
+        setTimeout(() => {
+            weatherRef.current.classList.remove(CurrentWeather)
+        }, 500)
+    });
+
+    return (
+        <div className={CurrentDay} ref={weatherRef}>
             <div className={MainWeather}>
-                <ActualTemp><WiThermometer className={DetailsIcons}/>{weather.temp}&deg;C</ActualTemp>
+                <CurrentDate>{getFullDate(date.getDay())}</CurrentDate>
+                <City><MdLocationOn className={CityIcons}/>{weather.city}</City>
                 <Icon
                     icon={weather.icons[0]}
                     size={200}
-                    color={'#000'}/>
-                <Desc>{weather.desc[0]}</Desc>
+                    color={'#FFF'}/>
+                <Desc>{weather.desc[0]} <ActualTemp>{weather.temp}&deg;C</ActualTemp></Desc>
+
+                <DetailsContainer>
+                    <SubDetailsContainer>
+                        <Detail><MdPerson className={DetailsIcons}/>{weather.feels_temp}&deg;</Detail>
+                        <Detail><WiStrongWind className={DetailsIcons}/>{weather.wind}</Detail>
+                    </SubDetailsContainer>
+                    <SubDetailsContainer>
+                        <Detail><WiBarometer className={DetailsIcons}/>{weather.pressure}</Detail>
+                        <Detail><WiCloudy className={DetailsIcons}/>{weather.clouds}%</Detail>
+                    </SubDetailsContainer>
+                </DetailsContainer>
             </div>
-            <DetailsContainer>
-                <Detail><MdPerson style={{marginBottom: "-0.15em"}}/> Feels like: {weather.feels_temp} &deg;C</Detail>
-                <Detail><WiMoonAltWaningCrescent3 className={DetailsIcons}/> Min. temp.: {weather.temp_min[0]} &deg;C</Detail>
-                <Detail><WiDaySunny className={DetailsIcons}/> Max. temp.: {weather.temp_max[0]} &deg;C</Detail>
-                <Detail><WiStrongWind className={DetailsIcons}/> Wind speed: {weather.wind} mph</Detail>
-                <Detail><WiBarometer className={DetailsIcons}/> Pressure: {weather.pressure} hPa</Detail>
-                <Detail><WiCloudy className={DetailsIcons}/> Cloudy: {weather.clouds} %</Detail>
-            </DetailsContainer>
         </div>
     )
 };
