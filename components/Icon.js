@@ -1,33 +1,48 @@
 import React from 'react';
-import {
-    WiDayThunderstorm,
-    WiShowers,
-    WiSnowWind,
-    WiRain,
-    WiFog,
-    WiDaySunny,
-    WiCloudy,
-    WiDayCloudy
-} from 'weather-icons-react';
+import Lottie from 'react-lottie'
 
+import weatherMist from "../assets/lottie/weather-mist";
+import weatherPartlyCloudy from "../assets/lottie/weather-partly-cloudy";
+import weatherSnow from "../assets/lottie/weather-snow";
+import weatherStorm from "../assets/lottie/weather-storm";
+import weatherSunny from "../assets/lottie/weather-sunny";
+import weatherWindy from "../assets/lottie/weather-windy";
+import weatherPartlyShower from "../assets/lottie/weather-partly-shower";
 const Icon = (props) => {
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: weatherSunny,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
     if (props.icon <= 232)
-        return <WiDayThunderstorm size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherStorm;
     if (props.icon >= 300 && props.icon <= 321)
-        return <WiShowers size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherPartlyShower;
     if (props.icon >= 500 && props.icon <= 521)
-        return <WiRain size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherPartlyShower;
     if (props.icon >= 600 && props.icon <= 622)
-        return <WiSnowWind size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherSnow;
     if (props.icon >= 700 && props.icon <= 781)
-        return <WiFog size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherMist;
     if (props.icon === 800)
-        return <WiDaySunny size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherSunny;
     if (props.icon === 801 || props.icon === 802)
-        return <WiDayCloudy size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherPartlyCloudy;
     if (props.icon > 802)
-        return <WiCloudy size={props.size} color={props.color}/>;
-    return <WiDaySunny size={props.size} color={props.color}/>;
+        defaultOptions.animationData = weatherWindy;
+
+    return(
+        <Lottie options={defaultOptions}
+                height={props.size}
+                width={props.size}
+                isStopped={false}
+                isPaused={false}
+        />
+    )
 };
 
 export default Icon;
