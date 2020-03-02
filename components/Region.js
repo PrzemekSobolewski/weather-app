@@ -4,12 +4,13 @@ import * as actions from "../redux/actions/weatherAction";
 import styled from '@emotion/styled';
 import {css} from 'emotion';
 import {IoIosSearch} from "react-icons/io"
+import Clock from './Clock';
 
 const Icon = css({
     fontSize: "2.5em",
-    float: "left",
     marginTop: "0.1em",
     marginLeft: "-1.3em",
+    float: "left",
     color: "white",
     ':hover':{
         cursor: "pointer",
@@ -18,8 +19,7 @@ const Icon = css({
 });
 const RegionSelector = css({
     paddingTop: "3em",
-    maxLength: "15"
-
+    maxLength: "15",
 });
 
 const RegionInput = styled.input`
@@ -38,6 +38,18 @@ const RegionInput = styled.input`
         outline: none;
     }    
 `;
+
+const LocalTime = css({
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    float: "left",
+    padding: "0.2em",
+    borderRadius: "15px",
+    margin: "2em 0 0 4em",
+    color: "white",
+    fontSize: "2em",
+    textAlign: "center",
+    width: "5em"
+});
 
 
 const Region = () => {
@@ -65,11 +77,17 @@ const Region = () => {
     };
 
     return (
-        <div className={RegionSelector}>
-            <RegionInput value={city} type={"text"} name={"city"} id={"city"} required
-                         minlength="1" maxlength="15"
-                   onChange={handleChange}/>
-            <IoIosSearch className={Icon} onClick={handleSubmit} />
+        <div style={{display: "grid"}}>
+            <div className={RegionSelector}>
+                <RegionInput value={city} type={"text"} name={"city"} id={"city"} required
+                             minlength="1" maxlength="15"
+                       onChange={handleChange}/>
+                <IoIosSearch className={Icon} onClick={handleSubmit} />
+
+            </div>
+            <div className={LocalTime}>
+                <Clock />
+            </div>
         </div>
     )
 

@@ -10,7 +10,8 @@ const initialState = {
     clouds: 0,
     wind: 0,
     desc: [0, 0, 0, 0, 0],
-    icons: [0, 0, 0, 0, 0]
+    icons: [0, 0, 0, 0, 0],
+    timezone: 0
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +28,7 @@ export default (state = initialState, action) => {
             wind: action.wind,
             desc: action.desc,
             icons: action.icon,
+            timezone: action.timezone
         }
     }
     return state;

@@ -30,7 +30,8 @@ export const updateWeatherInfo = (response)=> {
             response.list[1].weather[0].id,
             response.list[2].weather[0].id,
             response.list[3].weather[0].id,
-            response.list[4].weather[0].id]
+            response.list[4].weather[0].id],
+        timezone: response.city.timezone
     }
 };
 
@@ -39,17 +40,17 @@ const calcCelsius = (temp) => Math.floor(temp - 273.15);
 export const fetchWeatherFromCity = (city) => async dispatch => {
     await fetch(PART_OF_URL + `q=${city}&cnt=${5}&appid=${API_key}`)
         .then(response => response.json())
-        .then(json => dispatch(updateWeatherInfo(json)))
+        .then(json => {
+            console.log(json);
+            dispatch(updateWeatherInfo(json));
+        })
         .catch(err => console.log(err));
 };
 
 export const fetchWeatherFromLocation = (latitude, longitude) => async dispatch => {
     await fetch(PART_OF_URL + `lat=${latitude}&lon=${longitude}&cnt=${5}&appid=${API_key}`)
         .then(response => response.json())
-        .then(json => {
-            console.log(json);
-            dispatch(updateWeatherInfo(json))
-        })
+        .then(json => dispatch(updateWeatherInfo(json)))
         .catch(err => console.log(err));
 
 };

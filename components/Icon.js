@@ -8,6 +8,7 @@ import weatherStorm from "../assets/lottie/weather-storm";
 import weatherSunny from "../assets/lottie/weather-sunny";
 import weatherWindy from "../assets/lottie/weather-windy";
 import weatherPartlyShower from "../assets/lottie/weather-partly-shower";
+
 const Icon = (props) => {
     const defaultOptions = {
         loop: true,

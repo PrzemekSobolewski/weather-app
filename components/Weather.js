@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux'
 import {
-    WiThermometer,
     WiBarometer,
     WiStrongWind,
     WiCloudy,
@@ -10,7 +9,6 @@ import {MdPerson} from "react-icons/md";
 import {css, keyframes} from 'emotion';
 import styled from '@emotion/styled';
 import {MdLocationOn} from "react-icons/md"
-
 import Icon from "./Icon";
 
 const transitionIn = keyframes`
@@ -30,6 +28,12 @@ const MainWeather = css({
     float: "right",
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     marginRight: "8em",
+    marginTop: "-8em",
+    ':hover':{
+        transform: "scale(1.1)",
+        transformOrigin: "right",
+        transition: "all 0.3s ease",
+    }
 
 });
 
@@ -57,6 +61,7 @@ const DetailsContainer = styled.div`
     flex-direction: column;
     border-radius: 10px;
 `;
+
 const SubDetailsContainer = styled.div`
     display: flex;
     flex-direction: row;
@@ -106,6 +111,7 @@ const Weather = () => {
         + date.getFullYear().toString() + ", "
         + weekday[day];
 
+
     useEffect(() => {
         weatherRef.current.classList.add(CurrentWeather);
         setTimeout(() => {
@@ -123,7 +129,6 @@ const Weather = () => {
                     size={200}
                     color={'#FFF'}/>
                 <Desc>{weather.desc[0]} <ActualTemp>{weather.temp}&deg;C</ActualTemp></Desc>
-
                 <DetailsContainer>
                     <SubDetailsContainer>
                         <Detail><MdPerson className={DetailsIcons}/>{weather.feels_temp}&deg;</Detail>
