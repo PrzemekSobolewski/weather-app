@@ -23,6 +23,7 @@ const transitionIn = keyframes`
 `;
 
 const MainWeather = css({
+    transition: "all 0.3s ease",
     width: "20em",
     borderRadius: "10px",
     float: "right",

@@ -65,7 +65,7 @@ const Region = () => {
 
     const getLocation = () => {
         if (cookies.city !== undefined) getLocationByCookies();
-        else if (navigator.geolocation) navigator.geolocation.getCurrentPosition(startFetchingWeather)
+        else if (navigator.geolocation) navigator.geolocation.getCurrentPosition(startFetchingWeather);
         else alert("Geolocation not supported on this browser")
     };
 
