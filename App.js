@@ -16,13 +16,20 @@ const FullContent = css({
     backgroundImage: `url(${clear_sky})`,
     backgroundSize: "cover",
     display: "flex",
-    height: "100%"
+    height: "100%",
+    '@media (max-width: 600px)': {
+        display: "grid"
+    }
 });
 
 const MainContent = css({
     width: "100%",
+    display: "flex",
     textAlign: "center",
     bottom: "0px",
+    '@media (max-width: 1200px)': {
+        display: "grid"
+    }
 });
 
 const App = () => {

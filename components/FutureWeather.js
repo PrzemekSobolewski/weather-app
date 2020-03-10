@@ -3,7 +3,7 @@ import {css, keyframes} from 'emotion';
 import styled from '@emotion/styled';
 import Icon from './Icon';
 import {useSelector} from "react-redux";
-
+import stars from "../assets/wallpapers/stars.jpg"
 const transitionIn = keyframes`
     from {
         opacity: 0;
@@ -14,6 +14,13 @@ const transitionIn = keyframes`
         transform: rotateX(0deg);
     }
 `;
+const FutureWeatherContainer = css({
+    '@media (max-width: 600px)': {
+        display: "grid",
+        backgroundImage: `url(${stars})`,
+    }
+
+});
 
 const Container = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
@@ -21,6 +28,10 @@ const Container = styled.div`
     height: calc(25% - 1px);;
     width: 20em;
     border-bottom: 1px solid white;
+    @media (max-width: 600px) {
+        width: 100%;
+        display: inline-table;
+    }
 `;
 
 const Animation = css`
@@ -30,7 +41,6 @@ const Temp = styled.span`
     color: rgba(255, 255, 255, 1);
     padding: 2.2em 0em 1em 1em;
     font-size: 1.6em;
-    display: grid;
     text-align: center;
     float: left;
     width: 40%;
@@ -105,7 +115,7 @@ const FutureWeather = () => {
             </Container>)
     }
     return (
-        <div>
+        <div className={FutureWeatherContainer}>
             {items}
         </div>
     )

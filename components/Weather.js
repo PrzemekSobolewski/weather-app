@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux'
 import {
     WiBarometer,
@@ -28,33 +28,54 @@ const MainWeather = css({
     borderRadius: "10px",
     float: "right",
     backgroundColor: "rgba(0, 0, 0, 0.3)",
-    marginRight: "8em",
-    marginTop: "-8em",
     ':hover':{
         transform: "scale(1.1)",
         transformOrigin: "right",
         transition: "all 0.3s ease",
+    },
+    '@media (max-width: 1200px)': {
+        float: "none",
+        width: "16em",
+        margin: "1em"
+    },
+    '@media (max-width: 600px)': {
+        margin: "0.5em"
     }
-
 });
 
 const City = styled.h1` 
     font-size: 2em;
     margin: 0.5em 0em 1em 0;
+    @media (max-width: 1200px) {
+        font-size: 1.5em;
+    }
+    @media (max-width: 350px) {
+        margin: 0.5em 0em 0.5em 0;
+    }
 `;
 
 const CurrentDate = styled.div`
     margin: 0.5em 0em 1em 0;
     font-size: 1.5em;
+    @media (max-width: 1200px) {
+        font-size: 1.2em;
+    }
 `;
 
 const Desc = styled.div`
     text-align: center;
     font-size: 2em;
+    @media (max-width: 1200px) {
+        font-size: 1.5em;
+    }
+    
 `;
 
 const ActualTemp = styled.div`
     padding: 1em;
+    @media (max-width: 350px) {
+        padding: 0.5em;
+    }
 `;
 
 const DetailsContainer = styled.div`
@@ -85,6 +106,9 @@ const CityIcons = css({
 const Detail = styled.div`
     font-size: 2em;
     width: 50%;
+    @media (max-width: 1200px) {
+        font-size: 1.5em;
+    }
 `;
 
 const CurrentWeather = css`
@@ -92,12 +116,16 @@ const CurrentWeather = css`
 `;
 const CurrentDay = css`
     color: rgba(255, 255, 255, 1);
-    float: right;
+    display: flex;
+    flex: auto;
+    align-items: center;
+    justify-content: center;
 `;
 
 
 const Weather = () => {
     const weatherRef = useRef(null);
+    const [width, setWidth] = useState(1300);
 
     const weather = useSelector(state => state.myWeather);
 
@@ -112,6 +140,9 @@ const Weather = () => {
         + date.getFullYear().toString() + ", "
         + weekday[day];
 
+    useEffect(() => {
+        setWidth(window.innerWidth);
+    }, []);
 
     useEffect(() => {
         weatherRef.current.classList.add(CurrentWeather);
@@ -127,7 +158,7 @@ const Weather = () => {
                 <City><MdLocationOn className={CityIcons}/>{weather.city}</City>
                 <Icon
                     icon={weather.icons[0]}
-                    size={200}
+                    size={(width > 1200) ? 200 : 150}
                     color={'#FFF'}/>
                 <Desc>{weather.desc[0]} <ActualTemp>{weather.temp}&deg;C</ActualTemp></Desc>
                 <DetailsContainer>
