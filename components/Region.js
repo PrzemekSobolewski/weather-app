@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import * as actions from "../redux/actions/weatherAction";
 import styled from '@emotion/styled';
 import {css} from 'emotion';

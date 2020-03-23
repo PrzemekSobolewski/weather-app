@@ -63,7 +63,6 @@ const Desc = css({
     marginRight: '1em'
 });
 
-
 const FutureWeather = () => {
     const ref1 = useRef(null);
     const ref2 = useRef(null);
